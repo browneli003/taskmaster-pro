@@ -46,7 +46,7 @@ var saveTasks = function() {
 };
 
 $(".list-group").on("click", "p", function() {
-  $(".list-group").on("blur", "textarea", function() {
+  $(".list-group").on("blur", "input[type='text']", function() {
     // get the textarea's current value/text
 var text = $(this)
 .val()
@@ -67,6 +67,14 @@ var taskP = $("<p>")
   .addClass("m-1")
   .text(text);
 
+  // recreate span element with bootstrap classes
+  var taskSpan = $("<span>")
+    .addClass("badge badge-primary badge-pill")
+    .text(date);
+
+  // replace input with span element
+  $(this).replaceWith(taskSpan);
+
 // replace textarea with p element
 $(this).replaceWith(taskP);
   });
@@ -82,6 +90,27 @@ $(this).replaceWith(taskP);
   textInput.trigger("focus");
   
 });
+
+// due date was clicked
+$(".list-group").on("click", "span", function() {
+  // get current text
+  var date = $(this)
+    .text()
+    .trim();
+
+  // create new input element
+  var dateInput = $("<input>")
+    .attr("type", "text")
+    .addClass("form-control")
+    .val(date);
+
+  // swap out elements
+  $(this).replaceWith(dateInput);
+
+  // automatically focus on new element
+  dateInput.trigger("focus");
+});
+
 
 
 // modal was triggered
